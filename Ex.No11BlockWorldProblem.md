@@ -16,18 +16,43 @@ Step 9 : Define a problem for block world problem.<br>
 Step 10 : Obtain the plan for given problem.<br> 
      
 ### Program:
+---
+(:requirements :strips :equality)
+(:predicates (clear ?x)
+(on-table ?x)
+(arm-empty)
+(holding ?x)
+(on ?x ?y))
+(:action pickup
+:parameters (?ob)
+:precondition (and (clear ?ob) (on-table ?ob) (arm-empty))
+:effect (and (holding ?ob) (not (clear ?ob)) (not (on-table ?ob))
+(not (arm-empty))))
+(:action putdown
+:parameters (?ob)
+:precondition (and (holding ?ob))
+:effect (and (clear ?ob) (arm-empty) (on-table ?ob)
+(not (holding ?ob))))
+(:action stack
+:parameters (?ob ?underob)
+:precondition (and (clear ?underob) (holding ?ob))
+:effect (and (arm-empty) (clear ?ob) (on ?ob ?underob)
+(not (clear ?underob)) (not (holding ?ob))))
+(:action unstack
+:parameters (?ob ?underob)
+:precondition (and (on ?ob ?underob) (clear ?ob) (arm-empty))
+:effect (and (holding ?ob) (clear ?underob)
+(not (on ?ob ?underob)) (not (clear ?ob)) (not (arm-empty)))))
 
-
-
-
-
-
-
-
-
+---
 ### Input 
+(:domain blocksworld)
+(:objects a b)
+(:init (on-table a) (on-table b) (clear a) (clear b) (arm-empty))
+(:goal (and (on a b))))
 
 ### Output/Plan:
+![image](https://github.com/skalirajans/AI_Lab_2023-24/assets/160304522/dbc077cd-cb35-4c60-abfc-dbc60b003d51)
 
 
 
